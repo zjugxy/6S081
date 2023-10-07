@@ -109,7 +109,7 @@ write_head(void)
   for (i = 0; i < log.lh.n; i++) {
     hb->block[i] = log.lh.block[i];
   }
-  bwrite(buf);
+  bwrite(buf);//commit point
   brelse(buf);
 }
 
@@ -132,6 +132,7 @@ begin_op(void)
       sleep(&log, &log.lock);
     } else if(log.lh.n + (log.outstanding+1)*MAXOPBLOCKS > LOGSIZE){
       // this op might exhaust log space; wait for commit.
+      //防止过多的syscall从而使得out of log blocks
       sleep(&log, &log.lock);
     } else {
       log.outstanding += 1;

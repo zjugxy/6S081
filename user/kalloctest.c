@@ -85,6 +85,7 @@ countfree()
 
   while(1){
     uint64 a = (uint64) sbrk(4096);
+
     if(a == 0xffffffffffffffff){
       break;
     }
@@ -98,6 +99,7 @@ countfree()
 
 void test2() {
   int free0 = countfree();
+  printf("countfree down\n");
   int free1;
   int n = (PHYSTOP-KERNBASE)/PGSIZE;
   printf("start test2\n");  
